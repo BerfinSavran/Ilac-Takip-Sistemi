@@ -19,6 +19,8 @@ namespace İlaç_Takip_Sistemi
             InitializeComponent();
             label1.Visible = false;
             label2.Visible = false;
+            label3.Visible = false;
+            
         }
 
         int adet = 0;
@@ -26,7 +28,7 @@ namespace İlaç_Takip_Sistemi
 
         private void listele_Click(object sender, EventArgs e)
         {
-            SqlCommand komut = new SqlCommand("select Depo_ilac.id, username, ilac_name, ilac_price, ilac_stok from Depo_ilac join Depocu on Depo_ilac.depo_id = Depocu.id", SqlBaglantisi.baglanti());
+            SqlCommand komut = new SqlCommand("select Depo_ilac.id,username, ilac_name, ilac_price, ilac_stok,depo_id from Depo_ilac join Depocu on Depo_ilac.depo_id = Depocu.id", SqlBaglantisi.baglanti());
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(komut);
             da.Fill(dt);
@@ -36,6 +38,7 @@ namespace İlaç_Takip_Sistemi
             dataGridView1.Columns[2].HeaderText = "Name";
             dataGridView1.Columns[3].HeaderText = "Price";
             dataGridView1.Columns[4].HeaderText = "Stock";
+            dataGridView1.Columns[5].Visible = false;
         }
 
         private void geri_Click(object sender, EventArgs e)
@@ -50,10 +53,13 @@ namespace İlaç_Takip_Sistemi
             txt_stok.Text = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
             label1.Text = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
             label2.Text = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+            label3.Text = dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString();
+           
         }
 
         private void siparis_Click(object sender, EventArgs e)
         {
+            
             try
             {
                 depoGuncelle();
@@ -117,7 +123,8 @@ namespace İlaç_Takip_Sistemi
             SqlCommand depoguncel = new SqlCommand("update Depo_ilac set ilac_stok=@p1 where id=@p2 and depo_id=@p3", SqlBaglantisi.baglanti());
             depoguncel.Parameters.AddWithValue("@p1", newstock);
             depoguncel.Parameters.AddWithValue("@p2", label1.Text);
-            depoguncel.Parameters.AddWithValue("@p3", label2.Text);
+            depoguncel.Parameters.AddWithValue("@p3", label3.Text);
+
             try
             {
                 depoguncel.ExecuteNonQuery();

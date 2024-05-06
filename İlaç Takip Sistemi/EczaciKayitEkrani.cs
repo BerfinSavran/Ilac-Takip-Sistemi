@@ -27,7 +27,7 @@ namespace İlaç_Takip_Sistemi
             try
             {
                 komut.ExecuteNonQuery();
-                MessageBox.Show("Kayıt başarılı...");
+                MessageBox.Show("Kayıt başarılı...", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 FormManager.formOpen(this, new EczaciGirisEkrani());
             }
             catch (Exception ex)
